@@ -9,8 +9,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   );
   print(
       "Background message: ${message.messageId} | ${message.notification?.body}");
-
-  // Optional: background logic here
 }
 
 void main() async {
@@ -36,6 +34,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class MyHomePage extends StatefulWidget {
   final String title;
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -148,3 +147,57 @@ class _MyHomePageState extends State<MyHomePage> {
       },
     );
   }
+
+  Widget _buildTokenBox(String token) {
+    return Container(
+      padding: EdgeInsets.all(12),
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade100,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.deepPurple),
+      ),
+      child: SelectableText(
+        token,
+        style: TextStyle(fontSize: 14, color: Colors.black87),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+        elevation: 5,
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.notifications_active_rounded,
+                  color: Colors.deepPurple, size: 50),
+              SizedBox(height: 12),
+              Text(
+                "Push Notification Setup Complete!",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20),
+              Text("🔑 Your FCM Token:", style: TextStyle(fontSize: 16)),
+              SizedBox(height: 8),
+              _buildTokenBox(_fcmToken),
+              SizedBox(height: 30),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
